@@ -38,7 +38,7 @@ public class NullableFunctionsTests {
 
     public static Stream<Arguments> areNullProvider() {
         return Stream.of(
-            Arguments.of("Null are null.", null, true, "Null (single) aren't null."),
+            Arguments.of("Null (single) is true.", null, true, "Null (single) isn't true."),
             Arguments.of("Singleton collection of null are null.", Collections.singleton(null).toArray(), true, "Singleton collection of null aren't null."),
             Arguments.of("Null and null are null.", Arrays.asList(null, null).toArray(), true, "Nulls (double) aren't null."),
             Arguments.of("Null, null and null are null.", Arrays.asList(null, null, null).toArray(), true, "A new Object() was null as well."),
@@ -52,15 +52,15 @@ public class NullableFunctionsTests {
 
     public static Stream<Arguments> areNotNullProvider() {
         return Stream.of(
-            Arguments.of("Null are null.", null, false, "Null (single) aren't null."),
-            Arguments.of("Singleton collection of null are null.", Collections.singleton(null).toArray(), false, "Singleton collection of null aren't null."),
-            Arguments.of("Null and null are null.", Arrays.asList(null, null).toArray(), false, "Nulls (double) aren't null."),
-            Arguments.of("Null, null and null are null.", Arrays.asList(null, null, null).toArray(), false, "A new Object() was null as well."),
-            Arguments.of("Singleton collection of new Object() aren't null.", Collections.singleton(new Object()).toArray(), true, "Singleton collection of null aren't null."),
-            Arguments.of("Null and new Object() aren't null.", Arrays.asList(null, new Object()).toArray(), true, "Nulls (double) aren't null."),
-            Arguments.of("Null, null and new Object() aren't null.", Arrays.asList(null, null, new Object()).toArray(), true, "A new Object() was null as well."),
-            Arguments.of("new Object(), null and new Object() aren't null.", Arrays.asList(new Object(), null, new Object()).toArray(), true, "A new Object() was null as well."),
-            Arguments.of("new Object(), new Object() and new Object() aren't null.", Arrays.asList(new Object(), new Object(), new Object()).toArray(), true, "A new Object() was null as well.")
+            Arguments.of("Null are false.", null, false, "Null (single) are true."),
+            Arguments.of("Singleton collection of null are false.", Collections.singleton(null).toArray(), false, "Singleton collection of null aren't null."),
+            Arguments.of("Null and null are false.", Arrays.asList(null, null).toArray(), false, "Nulls (double) aren't null."),
+            Arguments.of("Null, null and null are false.", Arrays.asList(null, null, null).toArray(), false, "A new Object() was null as well."),
+            Arguments.of("Singleton collection of new Object() are true.", Collections.singleton(new Object()).toArray(), true, "Singleton collection of null aren't null."),
+            Arguments.of("Null and new Object() are false.", Arrays.asList(null, new Object()).toArray(), false, "Null and new Object() aren't null."),
+            Arguments.of("Null, null and new Object() are false.", Arrays.asList(null, null, new Object()).toArray(), false, "Null, null and new Object() weren't null."),
+            Arguments.of("new Object(), null and new Object() are false.", Arrays.asList(new Object(), null, new Object()).toArray(), false, "New Object(), null and new Object() weren't null"),
+            Arguments.of("new Object(), new Object() and new Object() are true.", Arrays.asList(new Object(), new Object(), new Object()).toArray(), true, "A new Object() was null as well.")
         );
     }
 
@@ -70,7 +70,7 @@ public class NullableFunctionsTests {
     @Tag("isNull")
     public void isNullTest(String name, Object object, boolean expectedStatus, String errorMessage) {
         final var result = NullablePredicates.isNull(object);
-        Assertions.assertEquals(result, expectedStatus, errorMessage);
+        Assertions.assertEquals(expectedStatus, result, errorMessage);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -79,7 +79,7 @@ public class NullableFunctionsTests {
     @Tag("isNotNull")
     public void isNotNullTest(String name, Object object, boolean expectedStatus, String errorMessage) {
         final var result = NullablePredicates.isNotNull(object);
-        Assertions.assertEquals(result, expectedStatus, errorMessage);
+        Assertions.assertEquals(expectedStatus, result, errorMessage);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -88,7 +88,7 @@ public class NullableFunctionsTests {
     @Tag("areNull")
     public void areNullTest(String name, Object[] objects, boolean expectedStatus, String errorMessage) {
         final var result = NullablePredicates.areNull(objects);
-        Assertions.assertEquals(result, expectedStatus, errorMessage);
+        Assertions.assertEquals(expectedStatus, result, errorMessage);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -97,7 +97,7 @@ public class NullableFunctionsTests {
     @Tag("areNotNull")
     public void areNotNullTest(String name, Object[] objects, boolean expectedStatus, String errorMessage) {
         final var result = NullablePredicates.areNotNull(objects);
-        Assertions.assertEquals(result, expectedStatus, errorMessage);
+        Assertions.assertEquals(expectedStatus, result, errorMessage);
     }
 
     @Tag("NullableFunctions")

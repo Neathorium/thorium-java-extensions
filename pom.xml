@@ -17,14 +17,14 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-        <commons.io.version>2.8.0</commons.io.version>
+        <commons.io.version>2.11.0</commons.io.version>
         <jackson.version>2.13.0</jackson.version>
-        <junit.jupiter.version>5.8.1</junit.jupiter.version>
+        <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <aspectj.version>1.9.4</aspectj.version>
-        <allure.version>2.16.0</allure.version>
+        <allure.version>2.17.3</allure.version>
         <allure-maven.version>2.10.0</allure-maven.version>
         <pitest-maven.version>1.7.2</pitest-maven.version>
-        <pitest-parent.version>1.7.2</pitest-parent.version>
+        <pitest-parent.version>1.7.6</pitest-parent.version>
         <allure.cmd.download.url>https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline</allure.cmd.download.url>
     </properties>
     <repositories>
@@ -69,11 +69,6 @@
             <version>${allure.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-parent</artifactId>
             <version>${pitest-parent.version}</version>
@@ -82,7 +77,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-maven-plugin</artifactId>
-            <version>4.4.2.2</version>
+            <version>4.6.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.pitest</groupId>
@@ -92,7 +87,7 @@
         <dependency>
             <groupId>com.groupcdg.pitest</groupId>
             <artifactId>pitest-accelerator-junit5</artifactId>
-            <version>0.0.2</version>
+            <version>0.0.4</version>
         </dependency>
     </dependencies>
     <profiles>

@@ -18,11 +18,11 @@ public interface NullablePredicates {
 
     @SafeVarargs
     static <T> boolean areNull(T... objects) {
-        return GuardPredicates.areAll(NullablePredicates::isNull, objects);
+        return NullablePredicates.isNull(objects) || GuardPredicates.areAll(NullablePredicates::isNull, objects);
     }
 
     @SafeVarargs
     static <T> boolean areAnyNull(T... objects) {
-        return GuardPredicates.areAny(NullablePredicates::isNull, objects);
+        return NullablePredicates.isNull(objects) || GuardPredicates.areAny(NullablePredicates::isNull, objects);
     }
 }

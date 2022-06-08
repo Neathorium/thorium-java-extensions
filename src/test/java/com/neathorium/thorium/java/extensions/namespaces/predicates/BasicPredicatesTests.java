@@ -11,16 +11,16 @@ import java.util.stream.Stream;
 public class BasicPredicatesTests {
     public static Stream<Arguments> isBiggerThanProvider() {
         return Stream.of(
-                Arguments.of("1 bigger than 0", 1, 0, true, "1 was not bigger than 0"),
-                Arguments.of("-1 bigger than Integer.MIN_VALUE", -1, Integer.MIN_VALUE, true, "-1 was not bigger than Integer.MIN_VALUE"),
-                Arguments.of("Integer.MAX_VALUE bigger than 0", Integer.MAX_VALUE, 0, true, "Integer.MAX_VALUE was not bigger than Integer.MIN_VALUE"),
-                Arguments.of("Integer.MAX_VALUE bigger than Integer.MIN_VALUE", Integer.MAX_VALUE, Integer.MIN_VALUE, true, "Integer.MAX_VALUE was not bigger than Integer.MIN_VALUE"),
-                Arguments.of("1 bigger than -1", 1, -1, true, "1 was not bigger than -1"),
-                Arguments.of("0 not bigger than Integer.MAX_VALUE", 0, Integer.MAX_VALUE, false, "0 was bigger than Integer.MAX_VALUE"),
-                Arguments.of("0 not bigger than 0", 0, 0, false, "0 was bigger than 0"),
-                Arguments.of("1 not bigger than 1", 1, 1, false, "1 was bigger than 1"),
-                Arguments.of("-1 not bigger than -1", -1, -1, false, "-1 was bigger than -1"),
-                Arguments.of("-1 not bigger than 1", -1, 1, false, "-1 was bigger than 1")
+            Arguments.of("1 bigger than 0", 1, 0, true, "1 was not bigger than 0"),
+            Arguments.of("-1 bigger than Integer.MIN_VALUE", -1, Integer.MIN_VALUE, true, "-1 was not bigger than Integer.MIN_VALUE"),
+            Arguments.of("Integer.MAX_VALUE bigger than 0", Integer.MAX_VALUE, 0, true, "Integer.MAX_VALUE was not bigger than Integer.MIN_VALUE"),
+            Arguments.of("Integer.MAX_VALUE bigger than Integer.MIN_VALUE", Integer.MAX_VALUE, Integer.MIN_VALUE, true, "Integer.MAX_VALUE was not bigger than Integer.MIN_VALUE"),
+            Arguments.of("1 bigger than -1", 1, -1, true, "1 was not bigger than -1"),
+            Arguments.of("0 not bigger than Integer.MAX_VALUE", 0, Integer.MAX_VALUE, false, "0 was bigger than Integer.MAX_VALUE"),
+            Arguments.of("0 not bigger than 0", 0, 0, false, "0 was bigger than 0"),
+            Arguments.of("1 not bigger than 1", 1, 1, false, "1 was bigger than 1"),
+            Arguments.of("-1 not bigger than -1", -1, -1, false, "-1 was bigger than -1"),
+            Arguments.of("-1 not bigger than 1", -1, 1, false, "-1 was bigger than 1")
         );
     }
 

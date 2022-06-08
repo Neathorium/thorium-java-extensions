@@ -1,6 +1,7 @@
 package com.neathorium.thorium.java.extensions.namespaces.predicates;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public interface BasicPredicates {
     static boolean isBiggerThan(long value, long limit) {
@@ -34,4 +35,10 @@ public interface BasicPredicates {
     static boolean isZeroOrNonPositive(int value) {
         return isSmallerThan(value, 1);
     }
+
+    static boolean areAnyNegative(Integer... values) {
+        final Predicate<Integer> condition = BasicPredicates::isNegative;
+        return GuardPredicates.areAny(condition, values);
+    }
+
 }
