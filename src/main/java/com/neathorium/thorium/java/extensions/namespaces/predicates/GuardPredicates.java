@@ -13,13 +13,10 @@ public interface GuardPredicates {
         if (
             NullablePredicates.isNull(baseCondition) ||
             NullablePredicates.isNull(conditionHandler) ||
-            NullablePredicates.isNull(data)
+            NullablePredicates.isNull(data) ||
+            NullablePredicates.isNull(objects)
         ) {
             return false;
-        }
-
-        if (NullablePredicates.isNull(objects)) {
-            return true;
         }
 
         final var condition = conditionHandler.apply(baseCondition).apply(data.INVERT());
