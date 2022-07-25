@@ -40,4 +40,20 @@ public interface CardinalitiesFunctions {
     static <T> Function<Boolean, Predicate<T>> getPredicateForErrorString(Function<T, String> base) {
         return invert -> getPredicateForErrorString(invert, base);
     }
+
+    static <T> Function<Predicate<T>, Predicate<T>> getPredicateForBoolean(boolean value) {
+        return predicate -> getPredicateForBoolean(value, predicate);
+    }
+
+    static <T> Function<Function<T, String>, Predicate<T>> getPredicateForErrorString(boolean value) {
+        return predicate -> getPredicateForErrorString(value, predicate);
+    }
+
+    static <T> Function<Predicate<T>, Predicate<T>> getNoopPredicateForBoolean() {
+        return predicate -> getPredicateForBoolean(false, predicate);
+    }
+
+    static <T> Function<Function<T, String>, Predicate<T>> getIsBlankPredicateForErrorString() {
+        return predicate -> getPredicateForErrorString(false, predicate);
+    }
 }
