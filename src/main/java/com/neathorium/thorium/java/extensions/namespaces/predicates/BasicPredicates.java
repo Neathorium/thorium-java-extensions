@@ -4,8 +4,12 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 public interface BasicPredicates {
-    static boolean isBiggerThan(long value, long limit) {
+    static boolean isBiggerThan(int value, int limit) {
         return value > limit;
+    }
+
+    static boolean isSmallerThan(int value, int limit) {
+        return value < limit;
     }
 
     static boolean isNonNegative(int value) {
@@ -20,10 +24,6 @@ public interface BasicPredicates {
         return isBiggerThan(value, 0);
     }
 
-    static boolean isSmallerThan(long value, long limit) {
-        return value < limit;
-    }
-
     static boolean isZero(int value) {
         return Objects.equals(value, 0);
     }
@@ -35,6 +35,39 @@ public interface BasicPredicates {
     static boolean isZeroOrNonPositive(int value) {
         return isSmallerThan(value, 1);
     }
+
+    static boolean isBiggerThan(long value, long limit) {
+        return value > limit;
+    }
+
+    static boolean isSmallerThan(long value, long limit) {
+        return value < limit;
+    }
+
+    static boolean isNonNegative(long value) {
+        return isBiggerThan(value, -1L);
+    }
+
+    static boolean isNegative(long value) {
+        return isBiggerThan(0, value);
+    }
+
+    static boolean isPositiveNonZero(long value) {
+        return isBiggerThan(value, 0L);
+    }
+
+    static boolean isZero(long value) {
+        return Objects.equals(value, 0L);
+    }
+
+    static boolean isNonZero(long value) {
+        return !isZero(value);
+    }
+
+    static boolean isZeroOrNonPositive(long value) {
+        return isSmallerThan(value, 1L);
+    }
+
 
     static boolean areAnyNegative(Integer... values) {
         final Predicate<Integer> condition = BasicPredicates::isNegative;
