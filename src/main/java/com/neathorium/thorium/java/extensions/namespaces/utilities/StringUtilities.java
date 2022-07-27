@@ -84,4 +84,28 @@ public interface StringUtilities {
     static Predicate<String> uncontains(String expected) {
         return (value) -> uncontains(value, expected);
     }
+
+    static Predicate<String> containsValue(String value) {
+        return (expected) -> contains(value, expected);
+    }
+
+    static Predicate<String> uncontainsValue(String value) {
+        return (expected) -> uncontains(value, expected);
+    }
+
+    static Predicate<String> containsExpected(String expected) {
+        return (value) -> contains(value, expected);
+    }
+
+    static Predicate<String> uncontainsExpected(String expected) {
+        return (value) -> uncontains(value, expected);
+    }
+
+    static boolean valueContainsAny(String value, String[] expectedValues) {
+        return GuardPredicates.areAny(StringUtilities.containsValue(value), expectedValues);
+    }
+
+    static boolean valueContainsNone(String value, String[] expectedValues) {
+        return GuardPredicates.areAll(StringUtilities.uncontainsValue(value), expectedValues);
+    }
 }

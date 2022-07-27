@@ -1,17 +1,16 @@
 package com.neathorium.thorium.java.extensions.namespaces.enums;
 
 import com.neathorium.thorium.java.extensions.interfaces.IEnumKey;
-import com.neathorium.thorium.java.extensions.namespaces.predicates.GuardPredicates;
 import com.neathorium.thorium.java.extensions.namespaces.utilities.StringUtilities;
 import org.apache.commons.lang3.StringUtils;
 
 public interface EnumKeyFunctions {
     static <T extends IEnumKey> boolean isIn(String value, T key) {
-        return GuardPredicates.areAny(StringUtilities.contains(value), key.getNames());
+        return StringUtilities.valueContainsAny(value, key.getNames());
     }
 
     static <T extends IEnumKey> boolean isNotIn(String value, T key) {
-        return GuardPredicates.areAll(StringUtilities.uncontains(value), key.getNames());
+        return StringUtilities.valueContainsNone(value, key.getNames());
     }
 
     static <T extends IEnumKey> T getKey(String value, String valueName, T defaultValue, T[] values) {
