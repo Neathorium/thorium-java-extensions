@@ -14,16 +14,16 @@
         <!--Dependency Versions-->
         <thorium-exceptions.version>54ab492351455c7d76b039cd8e70d48c7438913a</thorium-exceptions.version>
         <selenium.version>3.12.0</selenium.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <commons.io.version>2.16.1</commons.io.version>
         <jackson.version>2.13.0</jackson.version>
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
-        <aspectj.version>1.9.4</aspectj.version>
+        <aspectj.version>1.9.22.1</aspectj.version>
         <allure.version>2.27.0</allure.version>
-        <allure-maven.version>2.10.0</allure-maven.version>
-        <pitest-maven.version>1.7.2</pitest-maven.version>
+        <allure-maven.version>2.12.0</allure-maven.version>
+        <pitest-maven.version>1.16.1</pitest-maven.version>
         <pitest-parent.version>1.16.1</pitest-parent.version>
         <allure.cmd.download.url>https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline</allure.cmd.download.url>
     </properties>
