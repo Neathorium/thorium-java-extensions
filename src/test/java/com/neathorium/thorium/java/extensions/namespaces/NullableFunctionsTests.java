@@ -55,7 +55,7 @@ public class NullableFunctionsTests {
             Arguments.of("Null are false.", null, false, "Null (single) are true."),
             Arguments.of("Singleton collection of null are false.", Collections.singleton(null).toArray(), false, "Singleton collection of null aren't null."),
             Arguments.of("Null and null are false.", Arrays.asList(null, null).toArray(), false, "Nulls (double) aren't null."),
-            Arguments.of("Null, null and null are false.", Arrays.asList(null, null, null).toArray(), false, "A new Object() was null as well."),
+            Arguments.of("Null, null and null are false.", Arrays.asList(null, null, null).toArray(), false, "Nulls (triple) aren't null."),
             Arguments.of("Singleton collection of new Object() are true.", Collections.singleton(new Object()).toArray(), true, "Singleton collection of null aren't null."),
             Arguments.of("Null and new Object() are false.", Arrays.asList(null, new Object()).toArray(), false, "Null and new Object() aren't null."),
             Arguments.of("Null, null and new Object() are false.", Arrays.asList(null, null, new Object()).toArray(), false, "Null, null and new Object() weren't null."),

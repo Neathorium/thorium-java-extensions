@@ -7,10 +7,10 @@ import static com.neathorium.thorium.java.extensions.namespaces.predicates.Empti
 
 public interface CollectionPredicates {
     static <T, U> boolean isEmptyOrNotOfType(Collection<T> collection, Class<U> clazz) {
-        return isNullOrEmpty(collection) || !clazz.isInstance(collection.iterator().next());
+        return EmptiablePredicates.isNullOrEmpty(collection) || !clazz.isInstance(collection.iterator().next());
     }
 
     static <T, U> boolean isNonEmptyAndOfType(Collection<T> collection, Class<U> clazz) {
-        return isNotNullAndNonEmpty(collection) && clazz.isInstance(collection.iterator().next());
+        return EmptiablePredicates.isNotNullAndNonEmpty(collection) && clazz.isInstance(collection.iterator().next());
     }
 }

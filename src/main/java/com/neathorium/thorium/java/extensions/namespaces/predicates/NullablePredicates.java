@@ -13,16 +13,30 @@ public interface NullablePredicates {
 
     @SafeVarargs
     static <T> boolean areNotNull(T... objects) {
+        if (
+            NullablePredicates.isNull(objects) ||
+            BasicPredicates.isZeroOrNonPositive(objects.length)
+        ) {
+            return false;
+        }
+
         return GuardPredicates.areNone(NullablePredicates::isNull, objects);
     }
 
     @SafeVarargs
     static <T> boolean areNull(T... objects) {
-        return NullablePredicates.isNull(objects) || GuardPredicates.areAll(NullablePredicates::isNull, objects);
+        if (
+            NullablePredicates.isNull(objects) ||
+            BasicPredicates.isZeroOrNonPositive(objects.length)
+        ) {
+            return true;
+        }
+
+        return GuardPredicates.areAll(NullablePredicates::isNull, objects);
     }
 
     @SafeVarargs
     static <T> boolean areAnyNull(T... objects) {
-        return NullablePredicates.isNull(objects) || GuardPredicates.areAny(NullablePredicates::isNull, objects);
+        return NullablePredicates.isNull(objects) || BasicPredicates.isZeroOrNonPositive(objects.length) || GuardPredicates.areAny(NullablePredicates::isNull, objects);
     }
 }

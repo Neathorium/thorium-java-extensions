@@ -8,12 +8,7 @@ import com.neathorium.thorium.java.extensions.namespaces.predicates.NullablePred
 import com.neathorium.thorium.java.extensions.namespaces.SizableFunctions;
 import com.neathorium.thorium.java.extensions.namespaces.predicates.AmountPredicates;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
@@ -70,7 +65,7 @@ public class DecoratedList<T> implements IExtendedList<T> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return list.containsAll(c);
+        return new HashSet<>(list).containsAll(c);
     }
 
     @Override
@@ -84,7 +79,9 @@ public class DecoratedList<T> implements IExtendedList<T> {
     }
 
     public boolean addNullSafe(T element) {
-        if (!isNotNull() || !NullablePredicates.isNotNull(element)) return false;
+        if (NullablePredicates.areAnyNull(list, element)) {
+            return false;
+        }
         list.add(element);
         return true;
     }

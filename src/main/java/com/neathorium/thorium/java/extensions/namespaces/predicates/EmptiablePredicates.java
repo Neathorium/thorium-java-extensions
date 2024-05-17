@@ -1,6 +1,6 @@
 package com.neathorium.thorium.java.extensions.namespaces.predicates;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public interface EmptiablePredicates {
     }
 
     static boolean isNotNullAndNonEmpty(Collection<?> collection) {
-        return !(isNullOrEmpty(collection));
+        return !(EmptiablePredicates.isNullOrEmpty(collection));
     }
 
     static boolean isEmpty(Map<?, ?> map) {
@@ -43,7 +43,7 @@ public interface EmptiablePredicates {
 
     static boolean hasOnlyNonNullValues(Collection<?> collection) {
         return (
-            isNotNullAndNonEmpty(collection) &&
+            EmptiablePredicates.isNotNullAndNonEmpty(collection) &&
             SizablePredicates.isSizeEqualTo(collection::size, (int)collection.stream().filter(NullablePredicates::isNotNull).count())
         );
     }
@@ -54,8 +54,8 @@ public interface EmptiablePredicates {
             return false;
         }
 
-        final var keys = Arrays.asList(map.keySet().toArray());
-        final var values = Arrays.asList(map.values().toArray());
+        final var keys = new ArrayList<>(map.keySet());
+        final var values = new ArrayList<>(map.values());
         return (
             SizablePredicates.isSizeEqualTo(map::size, (int)keys.stream().filter(NullablePredicates::isNotNull).count()) &&
             SizablePredicates.isSizeEqualTo(map::size, (int)values.stream().filter(NullablePredicates::isNotNull).count())

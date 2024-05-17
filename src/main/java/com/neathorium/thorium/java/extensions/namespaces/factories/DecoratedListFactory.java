@@ -1,6 +1,8 @@
 package com.neathorium.thorium.java.extensions.namespaces.factories;
 
 import com.neathorium.thorium.java.extensions.classes.DecoratedList;
+import com.neathorium.thorium.java.extensions.namespaces.predicates.NullablePredicates;
+import org.apache.commons.collections.ListUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +19,7 @@ public interface DecoratedListFactory {
         return getWith(list, Object.class);
     }
 
-    static DecoratedList<String> getWith(List<String> list) {
+    static DecoratedList<String> getWithStringClass(List<String> list) {
         return getWith(list, String.class);
     }
 
@@ -34,6 +36,12 @@ public interface DecoratedListFactory {
     }
 
     static <T> DecoratedList<T> getWith(T element, Class<?> type) {
+        final var list = new ArrayList<T>();
+        list.add(element);
+        return getWith(list, type);
+    }
+
+    static <T> DecoratedList<T> getImmutableWith(T element, Class<?> type) {
         return getWith(Collections.singletonList(element), type);
     }
 
@@ -52,4 +60,23 @@ public interface DecoratedListFactory {
     static <T> DecoratedList<T> getWith(T element) {
         return getWithObjectClass(List.of(element));
     }
+
+    static <T> DecoratedList<T> getWith(List<T> list) {
+        return getWithObjectClass(list);
+    }
+
+    static <T> DecoratedList<T> getWith(List<T>... lists) {
+        final var localList = new ArrayList<T>();
+        for (var list : lists) {
+            if (NullablePredicates.isNull(list)) {
+                continue;
+            }
+
+            localList.addAll(list);
+        }
+
+        return DecoratedListFactory.getWith(localList);
+    }
+
+
 }
