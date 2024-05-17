@@ -10,21 +10,21 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <!--Dependency Versions-->
-        <thorium-exceptions.version>e695205e5fe63212fac4803bcbf4734c7105cb72</thorium-exceptions.version>
+        <thorium-exceptions.version>54ab492351455c7d76b039cd8e70d48c7438913a</thorium-exceptions.version>
         <selenium.version>3.12.0</selenium.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-        <commons.io.version>2.11.0</commons.io.version>
+        <commons.io.version>2.16.1</commons.io.version>
         <jackson.version>2.13.0</jackson.version>
-        <junit.jupiter.version>5.8.2</junit.jupiter.version>
+        <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <aspectj.version>1.9.4</aspectj.version>
-        <allure.version>2.17.3</allure.version>
+        <allure.version>2.27.0</allure.version>
         <allure-maven.version>2.10.0</allure-maven.version>
         <pitest-maven.version>1.7.2</pitest-maven.version>
-        <pitest-parent.version>1.7.6</pitest-parent.version>
+        <pitest-parent.version>1.16.1</pitest-parent.version>
         <allure.cmd.download.url>https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline</allure.cmd.download.url>
     </properties>
     <repositories>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -77,17 +77,17 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-maven-plugin</artifactId>
-            <version>4.6.0.0</version>
+            <version>4.8.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-junit5-plugin</artifactId>
-            <version>0.15</version>
+            <version>1.2.1</version>
         </dependency>
         <dependency>
             <groupId>com.groupcdg.pitest</groupId>
             <artifactId>pitest-accelerator-junit5</artifactId>
-            <version>0.0.4</version>
+            <version>1.0.6</version>
         </dependency>
     </dependencies>
     <profiles>

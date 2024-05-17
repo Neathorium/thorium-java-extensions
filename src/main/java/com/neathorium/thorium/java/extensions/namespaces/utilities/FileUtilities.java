@@ -22,6 +22,6 @@ public interface FileUtilities {
     }
 
     static boolean isNotExisting(String path) {
-        return !isExisting(path);
+        return !FileUtilities.isExisting(path);
     }
 }
