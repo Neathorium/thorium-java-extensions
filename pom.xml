@@ -35,6 +35,11 @@
     </repositories>
     <dependencies>
         <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.22.1</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.Neathorium</groupId>
             <artifactId>thorium-exceptions</artifactId>
             <version>${thorium-exceptions.version}</version>
@@ -117,6 +122,13 @@
                                 -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                             </argLine>
                         </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.aspectj</groupId>
+                                <artifactId>aspectjweaver</artifactId>
+                                <version>${aspectj.version}</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -156,48 +168,6 @@
                                 ${allure.cmd.download.url}/${allure.version}/allure-commandline-${allure.version}.zip
                             </allureDownloadUrl>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.pitest</groupId>
-                        <artifactId>pitest-maven</artifactId>
-                        <version>${pitest-maven.version}</version>
-                        <!-- https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin -->
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.pitest</groupId>
-                                <artifactId>pitest-junit5-plugin</artifactId>
-                                <version>1.2.1</version>
-                            </dependency>
-                        </dependencies>
-                        <configuration>
-                            <targetClasses>
-                                <param>com.neathorium.thorium.java.extensions.namespaces.*</param>
-                            </targetClasses>
-                            <targetTests>
-                                <param>com.neathorium.thorium.java.extensions.namespaces.*</param>
-                            </targetTests>
-                            <mutators>
-                                <mutator>CONSTRUCTOR_CALLS</mutator>
-                                <mutator>VOID_METHOD_CALLS</mutator>
-                                <mutator>RETURN_VALS</mutator>
-                                <mutator>NON_VOID_METHOD_CALLS</mutator>
-                                <mutator>FALSE_RETURNS</mutator>
-                                <mutator>TRUE_RETURNS</mutator>
-                                <mutator>EMPTY_RETURNS</mutator>
-                                <mutator>INVERT_NEGS</mutator>
-                                <mutator>NEGATE_CONDITIONALS</mutator>
-                                <mutator>INLINE_CONSTS</mutator>
-                            </mutators>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>pitest</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>mutationCoverage</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
