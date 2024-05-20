@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class NullableFunctionsTests {
@@ -64,11 +65,25 @@ public class NullableFunctionsTests {
         );
     }
 
+    public static Stream<Arguments> equivalencyProvider() {
+        return Stream.of(
+            Arguments.of("Null are false.", null, false, true, "Null (single) are true."),
+            Arguments.of("Singleton collection of null are false.", Collections.singleton(null).toArray(), false, true, "Singleton collection of null aren't null."),
+            Arguments.of("Null and null are false.", Arrays.asList(null, null).toArray(), false, true, "Nulls (double) aren't null."),
+            Arguments.of("Null, null and null are false.", Arrays.asList(null, null, null).toArray(), false, true, "Nulls (triple) aren't null."),
+            Arguments.of("Singleton collection of new Object() are true.", Collections.singleton(new Object()).toArray(), true, false, "Singleton collection of null aren't null."),
+            Arguments.of("Null and new Object() are false.", Arrays.asList(null, new Object()).toArray(), false, true, "Null and new Object() aren't null."),
+            Arguments.of("Null, null and new Object() are false.", Arrays.asList(null, null, new Object()).toArray(), false, true, "Null, null and new Object() weren't null."),
+            Arguments.of("new Object(), null and new Object() are false.", Arrays.asList(new Object(), null, new Object()).toArray(), false, true, "New Object(), null and new Object() weren't null"),
+            Arguments.of("new Object(), new Object() and new Object() are true.", Arrays.asList(new Object(), new Object(), new Object()).toArray(), true, false, "A new Object() was null as well.")
+        );
+    }
+
     @ParameterizedTest(name = "{0}")
     @MethodSource("isNullProvider")
     @Tag("NullableFunctions")
     @Tag("isNull")
-    public void isNullTest(String name, Object object, boolean expectedStatus, String errorMessage) {
+    void isNullTest(String name, Object object, boolean expectedStatus, String errorMessage) {
         final var result = NullablePredicates.isNull(object);
         Assertions.assertEquals(expectedStatus, result, errorMessage);
     }
@@ -77,7 +92,7 @@ public class NullableFunctionsTests {
     @MethodSource("isNotNullProvider")
     @Tag("NullableFunctions")
     @Tag("isNotNull")
-    public void isNotNullTest(String name, Object object, boolean expectedStatus, String errorMessage) {
+    void isNotNullTest(String name, Object object, boolean expectedStatus, String errorMessage) {
         final var result = NullablePredicates.isNotNull(object);
         Assertions.assertEquals(expectedStatus, result, errorMessage);
     }
@@ -86,7 +101,7 @@ public class NullableFunctionsTests {
     @MethodSource("areNullProvider")
     @Tag("NullableFunctions")
     @Tag("areNull")
-    public void areNullTest(String name, Object[] objects, boolean expectedStatus, String errorMessage) {
+    void areNullTest(String name, Object[] objects, boolean expectedStatus, String errorMessage) {
         final var result = NullablePredicates.areNull(objects);
         Assertions.assertEquals(expectedStatus, result, errorMessage);
     }
@@ -95,7 +110,7 @@ public class NullableFunctionsTests {
     @MethodSource("areNotNullProvider")
     @Tag("NullableFunctions")
     @Tag("areNotNull")
-    public void areNotNullTest(String name, Object[] objects, boolean expectedStatus, String errorMessage) {
+    void areNotNullTest(String name, Object[] objects, boolean expectedStatus, String errorMessage) {
         final var result = NullablePredicates.areNotNull(objects);
         Assertions.assertEquals(expectedStatus, result, errorMessage);
     }
@@ -104,8 +119,22 @@ public class NullableFunctionsTests {
     @Tag("areNull")
     @Tag("areNullNoParameter")
     @Test
-    public void areNullNoParameterTest() {
+    void areNullNoParameterTest() {
         final var result = NullablePredicates.areNull();
         Assertions.assertTrue(result, "No parameter call wasn't true");
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("equivalencyProvider")
+    @Tag("NullableFunctions")
+    @Tag("Equivalency")
+    void equivalencyTest(String name, Object[] objects, boolean expectedNotNullStatus, boolean expectedNullStatus, String errorMessage) {
+        final var notNullResult = NullablePredicates.areNotNull(objects);
+        final var nullResult = NullablePredicates.areAnyNull(objects);
+        final var status = (
+            Objects.equals(notNullResult, expectedNotNullStatus) &&
+            Objects.equals(nullResult, expectedNullStatus)
+        );
+        Assertions.assertTrue(status, errorMessage);
     }
 }
