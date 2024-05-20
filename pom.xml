@@ -13,21 +13,27 @@
         <java.version>21</java.version>
         <!--Dependency Versions-->
         <thorium-exceptions.version>54ab492351455c7d76b039cd8e70d48c7438913a</thorium-exceptions.version>
-        <selenium.version>3.12.0</selenium.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <commons.io.version>2.16.1</commons.io.version>
-        <jackson.version>2.13.0</jackson.version>
+        <commons.lang3.version>3.14.0</commons.lang3.version>
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <aspectj.version>1.9.22.1</aspectj.version>
         <allure.version>2.27.0</allure.version>
         <allure-maven.version>2.12.0</allure-maven.version>
         <pitest-maven.version>1.16.1</pitest-maven.version>
         <pitest-parent.version>1.16.1</pitest-parent.version>
+        <pitest-junit5.version>1.2.1</pitest-junit5.version>
+        <pitest-accelerator-junit5.versio>1.0.6</pitest-accelerator-junit5.versio>
+        <spotbugs.version>4.8.5.0</spotbugs.version>
         <allure.cmd.download.url>https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline</allure.cmd.download.url>
     </properties>
     <repositories>
+        <repository>
+            <id>maven-central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -37,7 +43,7 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.9.22.1</version>
+            <version>${aspectj.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.Neathorium</groupId>
@@ -48,7 +54,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
+            <version>${commons.lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -80,19 +86,19 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs-maven-plugin</artifactId>
-            <version>4.8.5.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-junit5-plugin</artifactId>
-            <version>1.2.1</version>
+            <version>${pitest-junit5.version}</version>
         </dependency>
         <dependency>
             <groupId>com.groupcdg.pitest</groupId>
             <artifactId>pitest-accelerator-junit5</artifactId>
-            <version>1.0.6</version>
+            <version>${pitest-accelerator-junit5.versio}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
+            <version>${spotbugs.version}</version>
         </dependency>
     </dependencies>
     <profiles>
@@ -111,15 +117,23 @@
                             <source>${java.version}</source>
                             <target>${java.version}</target>
                         </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.aspectj</groupId>
+                                <artifactId>aspectjweaver</artifactId>
+                                <version>${aspectj.version}</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
+                            <useSystemClassLoader>false</useSystemClassLoader>
                             <testFailureIgnore>true</testFailureIgnore>
                             <argLine>
-                                -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                                -javaagent:"build/.m2/repository/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                             </argLine>
                         </configuration>
                         <dependencies>
@@ -169,6 +183,52 @@
                             </allureDownloadUrl>
                         </configuration>
                     </plugin>
+                    <plugin>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-maven</artifactId>
+                        <version>${pitest-maven.version}</version>
+                        <!-- https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin -->
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.pitest</groupId>
+                                <artifactId>pitest-junit5-plugin</artifactId>
+                                <version>${pitest-junit5.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.aspectj</groupId>
+                                <artifactId>aspectjweaver</artifactId>
+                                <version>${aspectj.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <targetClasses>
+                                <param>com.neathorium.thorium.java.extensions.namespaces.*</param>
+                            </targetClasses>
+                            <targetTests>
+                                <param>com.neathorium.thorium.java.extensions.namespaces.*</param>
+                            </targetTests>
+                            <mutators>
+                                <mutator>CONSTRUCTOR_CALLS</mutator>
+                                <mutator>VOID_METHOD_CALLS</mutator>
+                                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                                <mutator>FALSE_RETURNS</mutator>
+                                <mutator>TRUE_RETURNS</mutator>
+                                <mutator>EMPTY_RETURNS</mutator>
+                                <mutator>INVERT_NEGS</mutator>
+                                <mutator>NEGATE_CONDITIONALS</mutator>
+                                <mutator>INLINE_CONSTS</mutator>
+                            </mutators>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>pitest</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>mutationCoverage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -190,7 +250,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.8.5.0</version>
+                <version>${spotbugs.version}</version>
                 <configuration>
                     <!-- Optional directory to put spotbugs xml report -->
                 </configuration>
