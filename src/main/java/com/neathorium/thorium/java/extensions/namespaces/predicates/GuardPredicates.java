@@ -17,14 +17,18 @@ public interface GuardPredicates {
             NullablePredicates.isNull(baseCondition) ||
             NullablePredicates.isNull(conditionHandler) ||
             NullablePredicates.isNull(data) ||
-            ListPredicates.isEmpty(list)
+            NullablePredicates.isNull(list)
         ) {
             return false;
         }
 
-        final var condition = conditionHandler.apply(baseCondition).apply(data.INVERT());
         final var guardValue = data.GUARD_VALUE();
         final var finalValue = data.FINAL_VALUE();
+        if (BasicPredicates.isZeroOrNonPositive(list.size())) {
+            return guardValue;
+        }
+
+        final var condition = conditionHandler.apply(baseCondition).apply(data.INVERT());
         if (AmountPredicates.isSingle(list)) {
             return condition.test(list.getFirst()) ? guardValue : finalValue;
         }
@@ -40,7 +44,9 @@ public interface GuardPredicates {
     @SafeVarargs
     private static <T, U> boolean areCore(U baseCondition, Function<U, Function<Boolean, Predicate<T>>> conditionHandler, CardinalityData data, T... objects) {
         final var list = new ArrayList<T>();
-        Collections.addAll(list, objects);
+        if (NullablePredicates.isNotNull(objects)) {
+            Collections.addAll(list, objects);
+        }
         return GuardPredicates.areCore(list, baseCondition, conditionHandler, data);
     }
 

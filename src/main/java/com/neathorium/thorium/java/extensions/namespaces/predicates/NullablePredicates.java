@@ -8,7 +8,7 @@ public interface NullablePredicates {
     }
 
     static boolean isNotNull(Object object) {
-        return !isNull(object);
+        return Objects.equals(Boolean.FALSE, NullablePredicates.isNull(object));
     }
 
     @SafeVarargs
@@ -20,7 +20,7 @@ public interface NullablePredicates {
             return false;
         }
 
-        return GuardPredicates.areNone(NullablePredicates::isNull, objects);
+        return GuardPredicates.areAll(NullablePredicates::isNotNull, objects);
     }
 
     @SafeVarargs
