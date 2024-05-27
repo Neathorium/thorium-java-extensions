@@ -1,6 +1,6 @@
 package com.neathorium.thorium.java.extensions.constants;
 
-import com.neathorium.thorium.java.extensions.namespaces.utilities.SetExtensions;
+import com.neathorium.thorium.java.extensions.set.namespaces.SetExtensions;
 
 import java.util.Set;
 
@@ -15,7 +15,7 @@ public abstract class StringUtilitiesConstants {
     public static final Character COMBINING_GRAPHEME_JOINER = '͏';
 
 
-    public static final Set<Character> INVISIBLE_BLANKS_SET = SetExtensions.ofWithHashMap(
+    public static final Set<Character> INVISIBLE_BLANKS_SET = SetExtensions.ofWithHashSet(
         StringUtilitiesConstants.BRAILLE_PATTERN_BLANK,
         StringUtilitiesConstants.HANGUL_FILLER,
         StringUtilitiesConstants.KHMER_VOWEL_INHERET_AQ,

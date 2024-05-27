@@ -11,10 +11,6 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 public interface StringUtilities {
-    private static boolean parameterGuard(String object, String expected) {
-        return NullablePredicates.isNotNull(object) && StringUtils.isNotEmpty(expected);
-    }
-
     static boolean isInvisible(CharSequence sequence) {
         final var defaultValue = true;
         if (NullablePredicates.isNull(sequence)) {
@@ -45,6 +41,10 @@ public interface StringUtilities {
 
     static boolean isVisible(CharSequence sequence) {
         return BooleanUtilities.isFalse(StringUtilities.isInvisible(sequence));
+    }
+
+    private static boolean parameterGuard(String object, String expected) {
+        return NullablePredicates.isNotNull(object) && StringUtils.isNotEmpty(expected);
     }
 
     static boolean contains(String value, String expected) {
