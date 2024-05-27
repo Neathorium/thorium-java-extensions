@@ -1,5 +1,7 @@
 package com.neathorium.thorium.java.extensions.namespaces.predicates;
 
+import com.neathorium.thorium.java.extensions.namespaces.VarargsFunctions;
+
 import java.util.Objects;
 
 public interface NullablePredicates {
@@ -13,30 +15,26 @@ public interface NullablePredicates {
 
     @SafeVarargs
     static <T> boolean areNotNull(T... objects) {
-        if (
-            NullablePredicates.isNull(objects) ||
-            BasicPredicates.isZeroOrNonPositive(objects.length)
-        ) {
-            return false;
-        }
-
-        return GuardPredicates.areAll(NullablePredicates::isNotNull, objects);
+        final var earlyValue = VarargsFunctions.handleSimple(false, true, objects);
+        return earlyValue && GuardPredicates.areAll(NullablePredicates::isNotNull, objects);
     }
 
     @SafeVarargs
     static <T> boolean areNull(T... objects) {
-        if (
-            NullablePredicates.isNull(objects) ||
-            BasicPredicates.isZeroOrNonPositive(objects.length)
-        ) {
+        final var earlyValue = VarargsFunctions.handleSimple(true, false, objects);
+        if (earlyValue) {
             return true;
         }
-
         return GuardPredicates.areAll(NullablePredicates::isNull, objects);
     }
 
     @SafeVarargs
     static <T> boolean areAnyNull(T... objects) {
-        return NullablePredicates.isNull(objects) || BasicPredicates.isZeroOrNonPositive(objects.length) || GuardPredicates.areAny(NullablePredicates::isNull, objects);
+        final var earlyValue = VarargsFunctions.handleSimple(true, false, objects);
+        if (earlyValue) {
+            return true;
+        }
+
+        return GuardPredicates.areAny(NullablePredicates::isNull, objects);
     }
 }

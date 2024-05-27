@@ -2,9 +2,10 @@ package com.neathorium.thorium.java.extensions.namespaces.predicates;
 
 import com.neathorium.thorium.java.extensions.constants.CardinalityDefaults;
 import com.neathorium.thorium.java.extensions.namespaces.CardinalitiesFunctions;
+import com.neathorium.thorium.java.extensions.namespaces.utilities.ListUtilities;
 import com.neathorium.thorium.java.extensions.records.CardinalityData;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -13,12 +14,8 @@ import java.util.function.Predicate;
 public interface GuardPredicates {
 
     private static <T, U> boolean areCore(List<T> list, U baseCondition, Function<U, Function<Boolean, Predicate<T>>> conditionHandler, CardinalityData data) {
-        if (
-            NullablePredicates.isNull(baseCondition) ||
-            NullablePredicates.isNull(conditionHandler) ||
-            NullablePredicates.isNull(data) ||
-            NullablePredicates.isNull(list)
-        ) {
+        final var objects = Arrays.asList(baseCondition, conditionHandler, data, list);
+        if (ListUtilities.contains(objects, null)) {
             return false;
         }
 
@@ -43,7 +40,7 @@ public interface GuardPredicates {
     }
     @SafeVarargs
     private static <T, U> boolean areCore(U baseCondition, Function<U, Function<Boolean, Predicate<T>>> conditionHandler, CardinalityData data, T... objects) {
-        final var list = new ArrayList<T>();
+        final var list = ListUtilities.get(objects);
         if (NullablePredicates.isNotNull(objects)) {
             Collections.addAll(list, objects);
         }

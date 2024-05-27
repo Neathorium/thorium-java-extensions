@@ -1,6 +1,7 @@
 package com.neathorium.thorium.java.extensions.namespaces.concurrent;
 
 import com.neathorium.thorium.java.extensions.namespaces.utilities.BooleanUtilities;
+import com.neathorium.thorium.java.extensions.time.records.TimeEntryData;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -36,21 +37,40 @@ public interface CompletableFutureExtensions {
         return CompletableFuture.anyOf(failure, handler.apply(tasks));
     }
 
-    static CompletableFuture<?> allOfTerminateOnFailureTimed(int duration, CompletableFuture<?>... tasks) {
-        final Function<CompletableFuture<?>[], CompletableFuture<?>> allOf = CompletableFuture::allOf;
-        return allOfTerminateOnFailure(allOf.andThen(task -> task.orTimeout(duration, TimeUnit.MILLISECONDS)), tasks);
+    static CompletableFuture<?> taskWithTimeout(CompletableFuture<?> task, TimeEntryData timeData) {
+        return task.orTimeout(timeData.LENGTH(), timeData.TIME_UNIT());
+    }
+    static Function<CompletableFuture<?>, CompletableFuture<?>> taskWithTimeout(TimeEntryData timeData) {
+        return task -> CompletableFutureExtensions.taskWithTimeout(task, timeData);
     }
 
-    static CompletableFuture<?> allOfTerminateOnFailure(CompletableFuture<?>... tasks) {
-        return allOfTerminateOnFailure(CompletableFuture::allOf, tasks);
+    static Function<CompletableFuture<?>[], CompletableFuture<?>> taskWithTimeout(Function<CompletableFuture<?>[], CompletableFuture<?>> function, TimeEntryData timeData) {
+        return function.andThen(CompletableFutureExtensions.taskWithTimeout(timeData));
+    }
+
+    static CompletableFuture<?> allOfTerminateOnFailureTimed(TimeEntryData data, CompletableFuture<?>... tasks) {
+        return CompletableFutureExtensions.allOfTerminateOnFailure(CompletableFutureExtensions.taskWithTimeout(CompletableFuture::allOf, data), tasks);
+    }
+
+    static CompletableFuture<?> anyOfTerminateOnFailureTimed(TimeEntryData data, CompletableFuture<?>... tasks) {
+        return CompletableFutureExtensions.anyOfTerminateOnFailureCore(CompletableFutureExtensions.taskWithTimeout(CompletableFuture::anyOf, data), tasks);
+    }
+
+    static CompletableFuture<?> allOfTerminateOnFailureTimed(int duration, CompletableFuture<?>... tasks) {
+        final var data = new TimeEntryData(duration, TimeUnit.MILLISECONDS);
+        return CompletableFutureExtensions.allOfTerminateOnFailureTimed(data, tasks);
     }
 
     static CompletableFuture<?> anyOfTerminateOnFailureTimed(int duration, CompletableFuture<?>... tasks) {
-        final Function<CompletableFuture<?>[], CompletableFuture<?>> anyOf = CompletableFuture::anyOf;
-        return anyOfTerminateOnFailureCore(anyOf.andThen(task -> task.orTimeout(duration, TimeUnit.MILLISECONDS)), tasks);
+        final var data = new TimeEntryData(duration, TimeUnit.MILLISECONDS);
+        return CompletableFutureExtensions.anyOfTerminateOnFailureTimed(data, tasks);
     }
 
-    static CompletableFuture<?> anyOfTerminateOnFailure(Function<CompletableFuture<?>[], CompletableFuture<?>> handler, CompletableFuture<?>... tasks) {
-        return anyOfTerminateOnFailureCore(CompletableFuture::anyOf, tasks);
+    static CompletableFuture<?> allOfTerminateOnFailure(CompletableFuture<?>... tasks) {
+        return CompletableFutureExtensions.allOfTerminateOnFailure(CompletableFuture::allOf, tasks);
+    }
+
+    static CompletableFuture<?> anyOfTerminateOnFailure(CompletableFuture<?>... tasks) {
+        return CompletableFutureExtensions.anyOfTerminateOnFailureCore(CompletableFuture::anyOf, tasks);
     }
 }

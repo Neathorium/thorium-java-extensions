@@ -1,11 +1,14 @@
-package com.neathorium.thorium.java.extensions.namespaces.utilities;
+package com.neathorium.thorium.java.extensions.set.namespaces;
 
 import com.neathorium.thorium.java.extensions.namespaces.predicates.BasicPredicates;
 import com.neathorium.thorium.java.extensions.namespaces.predicates.NullablePredicates;
+import com.neathorium.thorium.java.extensions.namespaces.utilities.ListUtilities;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public interface SetExtensions {
     static <T> Set<T> ofWith(
@@ -29,13 +32,13 @@ public interface SetExtensions {
     }
 
 
-    static <T> Set<T> ofWithHashMap(List<T> list) {
+    static <T> Set<T> ofWithHashSet(List<T> list) {
         return SetExtensions.ofWith(HashSet::new, HashSet::new, list);
     }
 
     @SafeVarargs
-    static <T> Set<T> ofWithHashMap(T... items) {
+    static <T> Set<T> ofWithHashSet(T... items) {
         final var list = ListUtilities.get(items);
-        return SetExtensions.ofWithHashMap(list);
+        return SetExtensions.ofWithHashSet(list);
     }
 }

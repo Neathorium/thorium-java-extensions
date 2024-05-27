@@ -14,7 +14,7 @@ public interface EnumKeyFunctions {
     }
 
     static <T extends IEnumKey> T getKey(String value, String valueName, T defaultValue, T[] values) {
-        final var errorStatus = StringUtils.isBlank(value) || StringUtils.isBlank(valueName);
+        final var errorStatus = StringUtilities.isInvisible(value) || StringUtilities.isInvisible(valueName);
         if (errorStatus) {
             return defaultValue;
         }

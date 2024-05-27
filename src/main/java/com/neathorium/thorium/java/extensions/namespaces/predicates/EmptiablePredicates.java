@@ -14,7 +14,7 @@ public interface EmptiablePredicates {
     }
 
     static <T> boolean isNotNullAndNonEmpty(T[] array) {
-        return !(isNullOrEmpty(array));
+        return !(EmptiablePredicates.isNullOrEmpty(array));
     }
 
     static boolean isEmpty(Collection<?> collection) {
@@ -38,7 +38,7 @@ public interface EmptiablePredicates {
     }
 
     static boolean isNotNullAndNonEmpty(Map<?, ?> map) {
-        return !(isNullOrEmpty(map));
+        return !(EmptiablePredicates.isNullOrEmpty(map));
     }
 
     static boolean hasOnlyNonNullValues(Collection<?> collection) {
@@ -49,7 +49,7 @@ public interface EmptiablePredicates {
     }
 
     static boolean hasOnlyNonNullValues(Map<? ,?> map) {
-        final var validMap = isNotNullAndNonEmpty(map);
+        final var validMap = EmptiablePredicates.isNotNullAndNonEmpty(map);
         if (!validMap) {
             return false;
         }

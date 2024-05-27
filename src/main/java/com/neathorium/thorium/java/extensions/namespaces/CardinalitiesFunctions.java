@@ -1,7 +1,6 @@
 package com.neathorium.thorium.java.extensions.namespaces;
 
 import com.neathorium.thorium.java.extensions.namespaces.utilities.StringUtilities;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.function.Function;
 import java.util.function.Predicate;

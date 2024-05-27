@@ -7,6 +7,7 @@ import com.neathorium.thorium.java.extensions.namespaces.ExtendedListFunctions;
 import com.neathorium.thorium.java.extensions.namespaces.predicates.NullablePredicates;
 import com.neathorium.thorium.java.extensions.namespaces.SizableFunctions;
 import com.neathorium.thorium.java.extensions.namespaces.predicates.AmountPredicates;
+import com.neathorium.thorium.java.extensions.namespaces.utilities.ListUtilities;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -30,7 +31,7 @@ public class DecoratedList<T> implements IExtendedList<T> {
 
     @Override
     public boolean contains(Object o) {
-        return list.contains(o);
+        return ListUtilities.contains(list, o);
     }
 
     @Override
